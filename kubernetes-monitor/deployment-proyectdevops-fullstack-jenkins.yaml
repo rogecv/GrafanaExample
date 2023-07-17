@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proyectdevops-fullstack-jenkins-deployment
+spec:
+  selector:
+   matchLabels:
+    app: proyectdevops-fullstack-jenkins
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: proyectdevops-fullstack-jenkins
+    spec:
+      containers:
+        - name: proyectdevops-fullstack-jenkins
+          image: mramoscli/projectdevops       
+          ports:
+            - containerPort: 9090
+              name: proyectdevops  # updated port name
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: proyectdevops-fullstack-jenkins-service
+  labels:
+    app: proyectdevops-fullstack-jenkins
+spec:   
+  ports:
+  - name: proyectdevops  # updated port name
+    port: 9090
+    nodePort : 31780 
+  #type: LoadBalancer
+  type: NodePort
+  selector:
+   app: proyectdevops-fullstack-jenkins
