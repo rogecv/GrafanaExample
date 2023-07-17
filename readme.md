@@ -32,7 +32,7 @@ Se instala Kubectl en el interior de Jenkins:
 
 Guía de instalación:  https://k8s-docs.netlify.app/en/docs/tasks/tools/install-kubectl/
 
-Se ingresa por la terminal 
+Ejecutar el comando de instalación: 
 
 ```console
 curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
@@ -74,6 +74,7 @@ Salir del contenedor:
 exit
 ```
 Una vez la instalación este completa. Instalar el plugin Kubernetes
+
 ![Alt text](images/PLUGIN.PNG) 
 
 ## Conectar instalación de Docker a Minikube 
