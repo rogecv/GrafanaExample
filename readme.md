@@ -1,11 +1,13 @@
 # Instalar Proyecto Jenkins, Nexus y Sonar Dockerizados
 
+Iniciar Minikube porque lo necesitamos: 
+```console
+minikube start
+```
 CLonar repositorio: 
-
-[Repositorio GitHub](https://https://github.com/bellyster/GrafanaExample)
+[Repositorio GitHub](https://github.com/bellyster/GrafanaExample)
 
 Ir a la línea 13 del archivo docker-compose.yml y cambiar la línea por la ruta de la carpeta actual: 
-
 
 ```yml
 %Actual_Path%/jenkins_home:/var/jenkins_home 
@@ -18,15 +20,6 @@ Tenemos un docker composer para ejecutar.
 docker compose up -d
 ```
 
-Verificar los elementos creados: 
-```console
-kubectl get all
-```
-Iniciar Minikube porque lo necesitamos: 
-```console
-minikube start
-```
-
 ## Acceder al contenedor e instalar kubectl en el interior
 
 Para poder instalar cosas necesitamos entrar al contenedor: 
@@ -37,9 +30,7 @@ docker exec -it --user=root jenkinsdocker /bin/bash
 
 Se instala Kubectl en el interior de Jenkins: 
 
-```console
-https://k8s-docs.netlify.app/en/docs/tasks/tools/install-kubectl/
-```
+Guía de instalación:  https://k8s-docs.netlify.app/en/docs/tasks/tools/install-kubectl/
 
 Se ingresa por la terminal 
 
@@ -63,10 +54,27 @@ Comprobar Instalación:
 kubectl version --output=json --client
 ```
 
+## Acceder a Jenkins 
+
+Ahora se puede acceder a Jenkins desde la ruta de Minikube: 
+
+http://localhost:8080
+
+Instalación inicial. Necesitamos poner la clave inicial: 
+Ruta var/jenkins_home/secrets/initialAdminPassword 
+
+Si este archivo no se ha creado en la ruta en cuestión, entrar al contenedor y obtenerlo utilizando los siguientes comandos: 
+```console
+cat var/jenkins_home/secrets/initialAdminPassword
+```
+Instalar plugins predefinidos. 
+
 Salir del contenedor: 
 ```console
 exit
 ```
+Una vez la instalación este completa. Instalar el plugin Kubernetes
+![Alt text](images/PLUGIN.PNG) 
 
 ## Conectar instalación de Docker a Minikube 
 
@@ -87,27 +95,6 @@ Comprobamos que se ha agregado de manera correcta
 docker container inspect jenkinsdocker
 ```
 
-## Acceder a Jenkins 
-
-Ahora se puede acceder a Jenkins desde la ruta de Minikube: 
-
-http://localhost:8080
-
-Instalación inicial. Necesitamos poner la clave inicial: 
-Ruta var/jenkins_home/secrets/initialAdminPassword 
-
-Si este archivo no se ha creado en la ruta en cuestión, entrar al contenedor y obtenerlo utilizando los siguientes comandos: 
-```console
-docker exec -ti jenkinsdocker bin/bash
-cat var/jenkins_home/secrets/initialAdminPassword
-```
-Instalar plugins predefinidos. 
-
-Una vez la instalación este completa. Instalar el plugin Kubernetes
-
-![Alt text](images/PLUGIN.PNG) 
-
-
 ## Desconectar Docker de Minikube
 Cuando terminemos este ejercicio no olvides desconectar este contenedor a de esa red.
 
@@ -121,8 +108,6 @@ docker network disconnect minikube jenkinsdocker
 
 -----
 # Integración con Prometheus
-
-Se requiere otro repositorio con los archivos de configuración para la conexión. Pueden usar el que se encuentra linkeado (kubernetes-monitor) ya que es público. 
 
 Entrar a la carpeta kubernetes-monitor: 
 
@@ -198,8 +183,8 @@ Y dar click en Test Connection
 
 Ir al panel principal y crear un nuevo job de tipo Pipeline. 
 En la sección build, seleccionar from SCM file, y dar el link del repositorio Jenkins: 
-LINK: https://github.com/MiguelAngelRamos/kubernetes-monitor 
-
+LINK: https://github.com/bellyster/GrafanaExample
+script path: kubernetes-monitor/Jenkinsfile
 Testear proceso. 
 
 ![Alt text](images/pipelineSuccess.PNG)
@@ -238,7 +223,7 @@ kubectl get namespace
 ````
 
 ## Entrar a carpeta Prometheus y aplicar la autorización de prometheus
-
+Entrar a la carpeta prometheus en la consola, y luego a la carpeta monitoring.
 Ejecutamos el siguiente comando para aplicar el script de Autorización de prometheus. 
 
 ```console
@@ -311,7 +296,6 @@ Este archivo describe la integración de alertas.
 
 Ahora ejecutar un apply sobre esta carpeta. 
 ```console
-cd ..
 kubectl apply -f alert-manager/
 ```
 Podemos ver la alerta configurada en : 
