@@ -63,7 +63,7 @@ http://localhost:8080
 Instalación inicial. Necesitamos poner la clave inicial: 
 Ruta var/jenkins_home/secrets/initialAdminPassword 
 
-Si este archivo no se ha creado en la ruta en cuestión, entrar al contenedor y obtenerlo utilizando los siguientes comandos: 
+Si este archivo no se ha creado en la ruta en cuestión, obtenerlo utilizando los siguientes comandos (dentro del contenedor, donde aún estamos): 
 ```console
 cat var/jenkins_home/secrets/initialAdminPassword
 ```
