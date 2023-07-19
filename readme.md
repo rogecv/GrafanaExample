@@ -324,6 +324,11 @@ Se puede ingresar a grafana en la ruta:
 MinikubeIp:32000
 ```
 
+```console
+minikube service grafana --url -n monitoring
+```
+
+
 ![Alt text](images/GRAFANA1.PNG) 
 user: admin, password: admin
 
