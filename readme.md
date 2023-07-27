@@ -2,8 +2,10 @@
 
 Iniciar Minikube porque lo necesitamos: 
 ```console
-minikube start
+minikube start --driver=docker
 ```
+A minikube le indicamos que utilice solo docker
+
 CLonar repositorio: 
 [Repositorio GitHub](https://github.com/bellyster/GrafanaExample)
 
